@@ -1,0 +1,32 @@
+
+test {
+    // Specify the directory containing test classes
+    testClassesDirs = sourceSets.test.output.classesDirs
+
+    // Configure which test classes to run
+    include '**/TestSuite.class' // Ensure TestSuite matches the class name
+
+    // Optionally configure test options
+    testLogging {
+        // Configure which events to log during test execution
+        events 'passed', 'skipped', 'failed'
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.projectKey', 'HotelBookingSystem'
+        property 'sonar.host.url', 'http://localhost:9000'
+        property 'sonar.login', 'e45d6b6c62ec58f85aee2bbeec10f5f64aa347d0'
+        property 'sonar.jacoco.reportPaths', 'build/reports/jacoco/test/xml'
+    }
+}
